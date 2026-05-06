@@ -31,7 +31,7 @@ declare class ButtonBox extends St.Widget {
 
 /**
  * @see https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/ui/panelMenu.js#L95
- * @version 48
+ * @version 50
  */
 export namespace Button {
     interface ConstructorProps extends ButtonBox.ConstructorProps {}
@@ -39,10 +39,12 @@ export namespace Button {
 
 /**
  * @see https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/ui/panelMenu.js#L97
- * @version 48
+ * @version 50
  */
 export class Button extends ButtonBox {
     menu: PopupMenu | PopupDummyMenu;
+
+    _clickGesture: Clutter.ClickGesture;
 
     constructor(menuAlignment: number, nameText: string, dontCreateMenu?: boolean);
 
@@ -52,8 +54,6 @@ export class Button extends ButtonBox {
 
     setSensitive(sensitive: boolean): void;
     setMenu(menu: PopupMenu | PopupDummyMenu): void;
-
-    vfunc_event(event: Clutter.Event): boolean;
 
     vfunc_hide(): void;
 
