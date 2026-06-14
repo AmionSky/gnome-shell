@@ -59,7 +59,7 @@ export class QuickSettings extends Button {
     _unsafeMode?: UnsafeModeIndicator;
     _backgroundApps?: BackgroundAppsStatus.Indicator;
 
-    addExternalIndicator(indicator: Button, colSpan?: number): void;
+    addExternalIndicator(indicator: SystemIndicator, colSpan?: number): void;
 
     _setupIndicators(): Promise<void>;
     _addItemsBefore(items: Clutter.Actor, sibling: Clutter.Actor, colSpan?: number): void;
