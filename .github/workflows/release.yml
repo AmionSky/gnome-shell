@@ -45,7 +45,7 @@ jobs:
         id: oidc
         with:
           script: |
-            const token = await core.getIDToken('npm');
+            const token = await core.getIDToken('npm:registry.npmjs.org');
             core.setSecret(token);
             core.setOutput('token', token);
 
@@ -54,10 +54,12 @@ jobs:
           OIDC_TOKEN: ${{ steps.oidc.outputs.token }}
           PUBLISH_TAG: ${{ github.event.release.prerelease && 'next' || inputs.tag || 'latest' }}
         run: |
-          NPM_TOKEN=$(curl -sSfL "https://registry.npmjs.org/-/npm/v1/oidc/token" \
+          NPM_TOKEN=$(curl -sSfL "https://registry.npmjs.org/-/npm/v1/oidc/token/exchange/package/@girs%2fgnome-shell" \
             -X POST \
+            -H "Authorization: Bearer ${OIDC_TOKEN}" \
             -H "Content-Type: application/json" \
-            -d "{\"type\":\"oidc\",\"oidcToken\":\"${OIDC_TOKEN}\"}" | \
+            -H "Accept: application/json" \
+            -d '{}' | \
             python3 -c "import sys,json; print(json.load(sys.stdin)['token'])")
           yarn config set npmRegistryServer "https://registry.npmjs.org"
           yarn config set npmAlwaysAuth true
