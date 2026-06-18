@@ -322,17 +322,17 @@ export class LayoutManager extends GObject.Object {
 }
 
 /**
- * @see https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/ui/layout.js#L1309
- * @version 48
+ * @see https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/ui/layout.js#L1267
+ * @version 50
  */
 declare class PressureBarrier extends EventEmitter {
     _threshold: number;
     _timeout: number;
     _actionMode: Shell.ActionMode;
-    _barriers: any[];
-    _eventFilter: any | null;
+    _barriers: Meta.Barrier[];
+    _eventFilter: ((event: Meta.Barrier) => boolean) | null;
     _isTriggered: boolean;
-    _barrierEvents: any[];
+    _barrierEvents: [number, number][];
     _currentPressure: number;
     _lastTime: number;
 
@@ -341,15 +341,15 @@ declare class PressureBarrier extends EventEmitter {
     addBarrier(barrier: Meta.Barrier): void;
     removeBarrier(barrier: Meta.Barrier): void;
     destroy(): void;
-    setEventFilter(filter: any): void;
+    setEventFilter(filter: ((event: Meta.Barrier) => boolean) | null): void;
 
     _disconnectBarrier(barrier: Meta.Barrier): void;
     _reset(): void;
     _isHorizontal(barrier: Meta.Barrier): boolean;
-    _getDistanceAcrossBarrier(barrier: Meta.Barrier, event: any): number;
-    _getDistanceAlongBarrier(barrier: Meta.Barrier, event: any): number;
+    _getDistanceAcrossBarrier(barrier: Meta.Barrier, event: Meta.BarrierEvent): number;
+    _getDistanceAlongBarrier(barrier: Meta.Barrier, event: Meta.BarrierEvent): number;
     _trimBarrierEvents(): void;
-    _onBarrierLeft(barrier: Meta.Barrier, event: any): void;
+    _onBarrierLeft(barrier: Meta.Barrier, event: Meta.BarrierEvent): void;
     _trigger(): void;
-    _onBarrierHit(barrier: Meta.Barrier, event: any): void;
+    _onBarrierHit(barrier: Meta.Barrier, event: Meta.BarrierEvent): void;
 }
