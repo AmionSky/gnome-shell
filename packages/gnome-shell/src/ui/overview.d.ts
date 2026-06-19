@@ -3,9 +3,10 @@
 import type Clutter from '@girs/clutter-18';
 import type St from '@girs/st-18';
 
-import * as DND from './dnd.js';
-import * as OverviewControls from './overviewControls.js';
-import * as Signals from '../misc/signals.js';
+import { DragEvent, DragMonitor, DragMotionResult } from './dnd.js';
+import { ControlsState, ControlsManager } from './overviewControls.js';
+import { SearchController } from './searchController.js';
+import { EventEmitter } from '../misc/signals.js';
 import { Dash } from './dash.js';
 
 /**
@@ -16,6 +17,23 @@ import { Dash } from './dash.js';
  * @version 50
  */
 export const ANIMATION_TIME: number;
+
+declare class OverviewActor extends St.BoxLayout {
+    _controls: ControlsManager;
+
+    _init(): void;
+
+    prepareToEnterOverview(): void;
+    prepareToLeaveOverview(): void;
+    animateToOverview(state: ControlsState, callback: () => void): void;
+    animateFromOverview(callback: () => void): void;
+    runStartupAnimation(): Promise<void>;
+
+    get dash(): Dash;
+    get searchController(): SearchController;
+    get searchEntry(): St.Entry;
+    get controls(): ControlsManager;
+}
 
 declare enum OverviewShownState {
     HIDDEN = 'HIDDEN',
@@ -28,7 +46,33 @@ declare enum OverviewShownState {
  * @see https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/ui/overview.js#L108
  * @version 50
  */
-export class Overview extends Signals.EventEmitter {
+export class Overview extends EventEmitter {
+    isDummy: boolean;
+
+    _overview: OverviewActor;
+    _activationTime: number;
+    /** animating to overview, in overview, animating out */
+    _visible: boolean;
+    /** show() and not hide() */
+    _shown: boolean;
+    /** have a modal grab */
+    _modal: boolean;
+    _animationInProgress: boolean;
+    _visibleTarget: boolean;
+    _shownState: OverviewShownState;
+    _coverPane: Clutter.Actor;
+    _dragMonitor: DragMonitor;
+    _windowSwitchTimeoutId: number;
+    _windowSwitchTimestamp: number;
+    _lastActiveWorkspaceIndex: number;
+    _lastHoveredWindow: any | null;
+    _initCalled: boolean;
+    _swipeTracker: any;
+    _inXdndDrag: boolean | undefined;
+    _inItemDrag: boolean | undefined;
+    _inWindowDrag: boolean | undefined;
+    _grab: Clutter.Grab | false | undefined;
+
     constructor();
 
     get dash(): Dash;
@@ -55,7 +99,7 @@ export class Overview extends Signals.EventEmitter {
     _onDragBegin(): void;
     _onDragEnd(): void;
     _resetWindowSwitchTimeout(): void;
-    _onDragMotion(dragEvent: DND.DragEvent): DND.DragMotionResult;
+    _onDragMotion(dragEvent: DragEvent): DragMotionResult;
     _onScrollEvent(actor: Clutter.Actor, event: Clutter.Event): boolean;
     _relayout(): void;
     _onRestacked(): void;
@@ -82,8 +126,8 @@ export class Overview extends Signals.EventEmitter {
     /**
      * Animates the overview visible and grabs mouse and keyboard input
      */
-    show(state?: OverviewControls.ControlsState): void;
-    _animateVisible(state: OverviewControls.ControlsState): void;
+    show(state?: ControlsState): void;
+    _animateVisible(state: ControlsState): void;
     _showDone(): void;
     /**
      * Reverses the effect of show()
@@ -97,6 +141,6 @@ export class Overview extends Signals.EventEmitter {
     runStartupAnimation(): Promise<void>;
     getShowAppsButton(): St.Button;
 
-    get searchController(): any;
-    get searchEntry(): any;
+    get searchController(): SearchController;
+    get searchEntry(): St.Entry;
 }
