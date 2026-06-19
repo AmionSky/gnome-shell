@@ -18,6 +18,10 @@ import { Dash } from './dash.js';
  */
 export const ANIMATION_TIME: number;
 
+/**
+ * @see https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/ui/overview.js#L27
+ * @version 50
+ */
 declare class OverviewActor extends St.BoxLayout {
     _controls: ControlsManager;
 
@@ -35,6 +39,10 @@ declare class OverviewActor extends St.BoxLayout {
     get controls(): ControlsManager;
 }
 
+/**
+ * @see https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/ui/overview.js#L80
+ * @version 50
+ */
 declare enum OverviewShownState {
     HIDDEN = 'HIDDEN',
     HIDING = 'HIDING',

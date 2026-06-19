@@ -11,9 +11,25 @@ import { ThumbnailsBox } from './workspaceThumbnail.js';
 import { SearchController } from './searchController.js';
 import { Dash } from './dash.js';
 
-type StateTransitionParams = { transitioning: boolean; currentState: ControlsState; initialState: ControlsState; finalState: ControlsState; progress: number };
+/** @version 50 */
+interface StateTransitionParams {
+    transitioning: boolean;
+    currentState: ControlsState;
+    initialState: ControlsState;
+    finalState: ControlsState;
+    progress: number;
+}
 
+/**
+ * @see https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/ui/overviewControls.js#L21
+ * @version 50
+ */
 export const SMALL_WORKSPACE_RATIO: number;
+
+/**
+ * @see https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/ui/overviewControls.js#L29
+ * @version 50
+ */
 export const SIDE_CONTROLS_ANIMATION_TIME: number;
 
 /**
@@ -26,6 +42,10 @@ export enum ControlsState {
     APP_GRID = 2,
 }
 
+/**
+ * @see https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/ui/overviewControls.js#L39
+ * @version 50
+ */
 declare class ControlsManagerLayout extends Clutter.LayoutManager {
     _appDisplay: AppDisplay;
     _workspacesDisplay: WorkspacesDisplay;
