@@ -22,7 +22,7 @@ import { MessageTray } from './messageTray.js';
 // import * as ModalDialog from './modalDialog.js';
 // import * as OsdWindow from './osdWindow.js';
 // import * as OsdMonitorLabeler from './osdMonitorLabeler.js';
-// import * as Overview from './overview.js';
+import { Overview } from './overview.js';
 // import * as PadOsd from './padOsd.js';
 import { Panel } from './panel.js';
 // import * as Params from '../misc/params.js'
@@ -56,7 +56,7 @@ export declare const extensionManager: ExtensionManager;
 
 export declare const panel: Panel;
 
-export declare const overview: any;
+export declare const overview: Overview;
 
 export declare const runDialog: any;
 
