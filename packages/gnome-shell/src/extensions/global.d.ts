@@ -167,6 +167,19 @@ declare module '@girs/clutter-18/clutter-18' {
     export namespace Clutter {
         interface Actor {
             /**
+             * The 'delegate' property is important for anything which trying to get the
+             * delegate object from an associated actor. For instance, the drag and drop
+             * system calls the handleDragOver function on the delegate of a "drop target"
+             * when the user drags an item over it. If you do not set the _delegate
+             * property, your actor will not be able to be dropped onto.
+             * In case the class is an actor itself, the _delegate can be just set to this.
+             *
+             * @version 50
+             * @see https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/gnome-50/docs/js-coding-style.md#actor-deprecated-and-_delegate
+             */
+            _delegate?: object;
+
+            /**
              * A convenience wrapper for actors
              *
              * @version 46
