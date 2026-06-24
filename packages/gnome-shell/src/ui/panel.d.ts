@@ -4,9 +4,8 @@ import type St from '@girs/st-18';
 import type Clutter from '@girs/clutter-18';
 import type Meta from '@girs/meta-18';
 
-import type { Button } from './panelMenu.js';
-import type { DateMenuButton } from './dateMenu.js';
-import { PopupMenuManager } from './popupMenu.js';
+import type { Button, ButtonBox } from './panelMenu.js';
+import type { PopupMenuManager } from './popupMenu.js';
 import type { QuickSettingsMenu, SystemIndicator } from './quickSettings.js';
 
 import type * as AutoRotateStatus from './status/autoRotate.js';
@@ -26,12 +25,23 @@ import type * as SystemStatus from './status/system.js';
 import type * as ThunderboltStatus from './status/thunderbolt.js';
 import type * as VolumeStatus from './status/volume.js';
 
+import type { DateMenuButton } from './dateMenu.js';
+import type { ATIndicator } from './status/accessibility.js';
+import type { InputSourceIndicator } from './status/keyboard.js';
+import type { DwellClickIndicator } from './status/dwellClick.js';
+import type { ScreenRecordingIndicator, ScreenSharingIndicator } from './status/remoteAccess.js';
+
 /**
  * @version 48
  */
 export class UnsafeModeIndicator extends SystemIndicator {
     _indicator: St.Icon;
 }
+
+/**
+ * @version 50
+ */
+export class ActivitiesButton extends Button {}
 
 /**
  * @version 48
@@ -66,14 +76,24 @@ export class QuickSettings extends Button {
 }
 
 /**
- * @version 46
+ * @version 50
+ */
+interface PanelItems {
+    activities?: ActivitiesButton;
+    quickSettings?: QuickSettings;
+    dateMenu?: DateMenuButton;
+    a11y?: ATIndicator;
+    keyboard?: InputSourceIndicator;
+    dwellClick?: DwellClickIndicator;
+    screenRecording?: ScreenRecordingIndicator;
+    screenSharing?: ScreenSharingIndicator;
+}
+
+/**
+ * @version 50
  */
 export class Panel extends St.Widget {
-    statusArea: {
-        appMenu: any;
-        dateMenu: DateMenuButton;
-        quickSettings: QuickSettings;
-    };
+    statusArea: PanelItems & { [role: string]: unknown };
     menuManager: PopupMenuManager;
 
     boxOpacity: number;
@@ -81,19 +101,15 @@ export class Panel extends St.Widget {
     constructor();
     _init(): void;
 
-    _tryDragWindow(event: Clutter.Event): typeof Clutter.EVENT_STOP | typeof Clutter.EVENT_PROPAGATE;
-
-    _onButtonPress(actor: St.Widget, event: Clutter.Event): typeof Clutter.EVENT_STOP | typeof Clutter.EVENT_PROPAGATE;
-
-    _onTouchEvent(actor: St.Widget, event: Clutter.Event): typeof Clutter.EVENT_STOP | typeof Clutter.EVENT_PROPAGATE;
+    _onWindowDragGestureRecognize(): void;
 
     _toggleMenu(indicator: Button): void;
 
     _closeMenu(indicator: Button): void;
 
-    toggleAppMenu(): void;
-
     toggleCalendar(): void;
+
+    toggleQuickSettings(): void;
 
     closeCalendar(): void;
 
@@ -103,13 +119,13 @@ export class Panel extends St.Widget {
 
     _hideIndicators(): void;
 
-    _ensureIndicator(role: string): any;
+    _ensureIndicator(role: keyof PanelItems): ButtonBox | null;
 
-    updateBox(elements: any[], box: any): void;
+    _updateBox(elements: (keyof PanelItems)[], box: St.BoxLayout): void;
 
-    _addToPanelBox(role: string, indicator: Button, position: number, box: any): void;
+    _addToPanelBox(role: string, indicator: Button, position: number, box: St.BoxLayout): void;
 
-    addToStatusArea(role: string, indicator: Button, position?: number, box?: any): any;
+    addToStatusArea<T extends Button>(role: string, indicator: T, position?: number, box?: 'left' | 'center' | 'right'): T;
 
     _onMenuSet(indicator: Button): void;
 
