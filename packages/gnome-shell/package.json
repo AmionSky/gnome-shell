@@ -633,6 +633,28 @@
       }
     },
     "./ui/notificationDaemon/ambient": "./dist/ui/notificationDaemon-ambient.d.ts",
+    "./ui/overview": {
+      "import": {
+        "types": "./dist/ui/overview.d.ts",
+        "default": "./dist/ui/overview.js"
+      },
+      "require": {
+        "types": "./dist/ui/overview.d.ts",
+        "default": "./dist/ui/overview.cjs"
+      }
+    },
+    "./ui/overview/ambient": "./dist/ui/overview-ambient.d.ts",
+    "./ui/overviewControls": {
+      "import": {
+        "types": "./dist/ui/overviewControls.d.ts",
+        "default": "./dist/ui/overviewControls.js"
+      },
+      "require": {
+        "types": "./dist/ui/overviewControls.d.ts",
+        "default": "./dist/ui/overviewControls.cjs"
+      }
+    },
+    "./ui/overviewControls/ambient": "./dist/ui/overviewControls-ambient.d.ts",
     "./ui/panel": {
       "import": {
         "types": "./dist/ui/panel.d.ts",
@@ -699,6 +721,17 @@
       }
     },
     "./ui/search/ambient": "./dist/ui/search-ambient.d.ts",
+    "./ui/searchController": {
+      "import": {
+        "types": "./dist/ui/searchController.d.ts",
+        "default": "./dist/ui/searchController.js"
+      },
+      "require": {
+        "types": "./dist/ui/searchController.d.ts",
+        "default": "./dist/ui/searchController.cjs"
+      }
+    },
+    "./ui/searchController/ambient": "./dist/ui/searchController-ambient.d.ts",
     "./ui/slider": {
       "import": {
         "types": "./dist/ui/slider.d.ts",
@@ -996,6 +1029,17 @@
       }
     },
     "./ui/workspaceAnimation/ambient": "./dist/ui/workspaceAnimation-ambient.d.ts",
+    "./ui/workspaceThumbnail": {
+      "import": {
+        "types": "./dist/ui/workspaceThumbnail.d.ts",
+        "default": "./dist/ui/workspaceThumbnail.js"
+      },
+      "require": {
+        "types": "./dist/ui/workspaceThumbnail.d.ts",
+        "default": "./dist/ui/workspaceThumbnail.cjs"
+      }
+    },
+    "./ui/workspaceThumbnail/ambient": "./dist/ui/workspaceThumbnail-ambient.d.ts",
     "./ui/workspacesView": {
       "import": {
         "types": "./dist/ui/workspacesView.d.ts",
